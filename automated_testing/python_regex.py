@@ -1,4 +1,5 @@
 import re
+from difflib import SequenceMatcher
 
 class RegexText:
     """
@@ -66,5 +67,8 @@ class RegexText:
             common_pattern_text += common_pattern + "\n"
         return common_pattern_text
 
+    def calculate_word_similarity(self, word_a, word_b):
+        sim_score = SequenceMatcher(None, word_a, word_b).ratio()
+        return sim_score
 
 
