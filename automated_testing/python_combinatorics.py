@@ -1,6 +1,5 @@
 from collections import OrderedDict
 from itertools import starmap, product
-from turtle import pos
 
 class ParameterCombinator:
     def __init__(self):
