@@ -1,9 +1,8 @@
-import multiprocessing
+import multiprocessing as mp
 import subprocess
 from tabulate import tabulate
 
-# Create shared memory for parallelized processes
-data = multiprocessing.Manager.list()
+global data
 
 def run_shell_cmd(sh_cmd):
     print("running cmd {}".format(sh_cmd))
@@ -24,12 +23,16 @@ def get_results(output):
         data.append([sh_cmd, result])
 
 if __name__ == "__main__":
+    # Create shared memory for parallelized processes
+    dm = mp.Manager()
+    data = dm.list()
+
     # create pool of workers for parallelizing run_shell_cmd()
-    cpu_count = multiprocessing.cpu_count() - 1
+    cpu_count = mp.cpu_count() - 1
     if cpu_count > 0:
-        pool = multiprocessing.Pool(cpu_count)
+        pool = mp.Pool(cpu_count)
     else:
-        pool = multiprocessing.Pool(1)
+        pool = mp.Pool(1)
     
     sh_cmds = ["whoami","pwd","ls -la"]
     for sh_cmd in sh_cmds:
